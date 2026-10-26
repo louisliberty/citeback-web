@@ -90,6 +90,14 @@ html{scroll-behavior:smooth}body{margin:0}
 .cb .pro a.btn.primary{background:#fff;color:#0f172a}
 .cb .pro a.btn.primary:hover{background:#e2e8f0;color:#0f172a}
 .cb .pro .fine{color:#94a3b8}
+.cb .wl{margin-top:32px;max-width:520px}
+.cb .wl-label{display:block;font-size:14px;font-weight:600;color:#cbd5e1;margin-bottom:8px}
+.cb .wl-row{display:flex;flex-wrap:wrap;gap:12px}
+.cb .wl input[type=email]{flex:1 1 240px;min-width:0;min-height:48px;padding:12px 14px;border-radius:10px;border:1px solid #475569;background:#fff;color:#0f172a;font:inherit;font-size:16px}
+.cb .wl button.btn{font:inherit;font-weight:650;font-size:16px;border:0;cursor:pointer;background:#fff;color:#0f172a}
+.cb .wl button.btn:hover{background:#e2e8f0}
+.cb .wl-note{margin-top:12px;font-size:14px;color:#94a3b8}
+.cb .wl-msg{margin-top:12px;font-size:15px;color:#bbf7d0;min-height:1.2em}
 .cb .qa{padding:22px 0;border-bottom:1px solid var(--line)}
 .cb .qa h3{font-size:18px;line-height:1.35;margin-bottom:8px}
 .cb .qa p{color:var(--muted);max-width:46em}
@@ -327,9 +335,17 @@ html{scroll-behavior:smooth}body{margin:0}
       <li>Export to Markdown, CSV and more.</li>
       <li>A much larger archive, with backup and restore.</li>
     </ul>
-    <div class="cta-row">
-      <a class="btn primary" href="mailto:thelouisliberty@gmail.com?subject=Citeback%20Pro%20waitlist&amp;body=Please%20add%20me%20to%20the%20Citeback%20Pro%20waitlist.">Join the Pro waitlist</a>
-    </div>
+    <form class="wl" id="waitlist" action="https://assets.mailerlite.com/jsonp/2742498/forms/202374788518249990/subscribe" method="post" target="_blank">
+      <label class="wl-label" for="wl-email">Email address</label>
+      <div class="wl-row">
+        <input id="wl-email" name="fields[email]" type="email" required autocomplete="email" placeholder="Your email address">
+        <input type="hidden" name="ml-submit" value="1">
+        <input type="hidden" name="anticsrf" value="true">
+        <button class="btn primary" type="submit">Join the waitlist</button>
+      </div>
+      <p class="wl-note">By joining, you agree to get an email about Citeback Pro. You can unsubscribe anytime.</p>
+      <p class="wl-msg" id="wl-msg" role="status" aria-live="polite"></p>
+    </form>
   </div>
 </section>
 
@@ -374,5 +390,18 @@ html{scroll-behavior:smooth}body{margin:0}
 </footer>
 
 </div>
+<script>
+(function(){
+var f=document.getElementById('waitlist');if(!f||!window.fetch)return;
+f.addEventListener('submit',function(e){
+e.preventDefault();
+var m=document.getElementById('wl-msg'),b=f.querySelector('button');
+b.disabled=true;m.textContent='Sending...';
+fetch(f.action,{method:'POST',mode:'no-cors',body:new URLSearchParams(new FormData(f))})
+.then(function(){m.textContent='Thanks. Check your inbox and click the link to confirm. Check your spam folder if it doesn\u2019t arrive.';f.reset();b.disabled=false;})
+.catch(function(){m.textContent='Something went wrong. Please try again.';b.disabled=false;});
+});
+})();
+</script>
 </body>
 </html>
