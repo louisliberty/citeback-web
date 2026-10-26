@@ -12,7 +12,7 @@
 <meta property="og:description" content="A free, private Chrome extension that saves what you copy, with its source, and makes it searchable.">
 <meta property="og:image" content="https://getciteback.com/images/popup-list.webp">
 <meta name="twitter:card" content="summary_large_image">
-<script type="application/ld+json">[{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Citeback", "applicationCategory": "BrowserApplication", "operatingSystem": "Chrome", "description": "Citeback saves text you copy on webpages, with its source page, so you can search it and copy it again. Local-only, no account.", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}, {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Is Citeback free?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Saving, searching and copying back are free, with no account. A paid Pro version with extra tools is planned, and the free version stays."}}, {"@type": "Question", "name": "Does it save passwords?", "acceptedAnswer": {"@type": "Answer", "text": "No. Password fields, and fields marked as card numbers or one-time codes, are ignored."}}, {"@type": "Question", "name": "Where is my data stored?", "acceptedAnswer": {"@type": "Answer", "text": "In your browser's local extension storage on your device. It is not sent anywhere. It isn't encrypted, so anyone with access to your browser profile could read it."}}, {"@type": "Question", "name": "Does it work with text copied in other apps?", "acceptedAnswer": {"@type": "Answer", "text": "No. Citeback only sees text copied on webpages in Chrome. It isn't a system-wide clipboard manager."}}]}]</script>
+<script type="application/ld+json">[{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Citeback", "applicationCategory": "BrowserApplication", "operatingSystem": "Chrome", "description": "Citeback saves text you copy on webpages, with its source page, so you can search it and copy it again. Local-only, no account.", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}, {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "How do I see my clipboard history in Chrome?", "acceptedAnswer": {"@type": "Answer", "text": "Chrome doesn’t keep one for you. Citeback adds one for text you copy on webpages. Click its icon or press Ctrl+Shift+Y (⌘+Shift+Y on Mac) to see what you’ve copied, newest first."}}, {"@type": "Question", "name": "Can I search text I copied earlier?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Open Citeback and start typing. Search matches the copied text, the page title and address, and the site."}}, {"@type": "Question", "name": "Is Citeback free?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Saving, searching and copying back are free, with no account. A paid Pro version with extra tools is planned, and the free version stays."}}, {"@type": "Question", "name": "Does it save passwords?", "acceptedAnswer": {"@type": "Answer", "text": "No. Password fields, and fields marked as card numbers or one-time codes, are ignored."}}, {"@type": "Question", "name": "Where is my data stored?", "acceptedAnswer": {"@type": "Answer", "text": "In your browser’s local extension storage on your device. It is not sent anywhere. It isn’t encrypted, so anyone with access to your browser profile could read it."}}, {"@type": "Question", "name": "Why does it need access to all websites?", "acceptedAnswer": {"@type": "Answer", "text": "To notice when you copy text on a page and to read the page’s title and address for the source link. It does nothing else with that access."}}, {"@type": "Question", "name": "Does it work with text copied in other apps?", "acceptedAnswer": {"@type": "Answer", "text": "No. Citeback only sees text copied on webpages in Chrome. It isn’t a system-wide clipboard manager."}}, {"@type": "Question", "name": "Does it work in Incognito?", "acceptedAnswer": {"@type": "Answer", "text": "Not by default. You can allow it in Chrome’s extension settings."}}, {"@type": "Question", "name": "Why wasn’t something I copied saved?", "acceptedAnswer": {"@type": "Answer", "text": "Some sites copy with their own “Copy” buttons that don’t use a normal copy action, so Citeback may not see them. Tabs open before you installed Citeback need a refresh. The capture check in Settings tests it on a real page."}}, {"@type": "Question", "name": "How do I delete my clips?", "acceptedAnswer": {"@type": "Answer", "text": "Delete one clip, use Clear all in the popup, or use Clear history in Settings. Uninstalling the extension removes the data from your browser."}}, {"@type": "Question", "name": "Which browsers does it support?", "acceptedAnswer": {"@type": "Answer", "text": "Chrome. Other browsers aren’t supported yet."}}]}]</script>
 <style>
 html{scroll-behavior:smooth}body{margin:0}
 
@@ -90,12 +90,9 @@ html{scroll-behavior:smooth}body{margin:0}
 .cb .pro a.btn.primary{background:#fff;color:#0f172a}
 .cb .pro a.btn.primary:hover{background:#e2e8f0;color:#0f172a}
 .cb .pro .fine{color:#94a3b8}
-.cb details{border-bottom:1px solid var(--line)}
-.cb summary{cursor:pointer;padding:18px 0;font-weight:650;font-size:17px;list-style:none;display:flex;justify-content:space-between;gap:16px;min-height:44px;align-items:center}
-.cb summary::-webkit-details-marker{display:none}
-.cb summary::after{content:"+";font-size:22px;color:var(--blue);line-height:1}
-.cb details[open] summary::after{content:"\2212"}
-.cb details p{padding:0 0 20px;color:var(--muted);max-width:46em}
+.cb .qa{padding:22px 0;border-bottom:1px solid var(--line)}
+.cb .qa h3{font-size:18px;line-height:1.35;margin-bottom:8px}
+.cb .qa p{color:var(--muted);max-width:46em}
 .cb .faq{margin-top:32px;max-width:820px}
 .cb .final{text-align:center;background:linear-gradient(180deg,#fff,#eef4ff)}
 .cb .final .cta-row{justify-content:center}
@@ -104,7 +101,7 @@ html{scroll-behavior:smooth}body{margin:0}
 .cb footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px}
 .cb footer nav{display:flex;gap:20px;flex-wrap:wrap}
 .cb footer a{color:var(--muted)}
-.cb a:focus-visible,.cb summary:focus-visible{outline:3px solid #93c5fd;outline-offset:2px;border-radius:6px}
+.cb a:focus-visible{outline:3px solid #93c5fd;outline-offset:2px;border-radius:6px}
 @media (max-width:640px){
 .cb section{padding:56px 0}
 .cb .hero{padding-top:24px;padding-bottom:56px;gap:32px}
@@ -339,15 +336,17 @@ html{scroll-behavior:smooth}body{margin:0}
   <div class="wrap">
     <h2>Questions</h2>
     <div class="faq">
-      <details><summary>Is Citeback free?</summary><p>Yes. Saving, searching and copying back are free, with no account. A paid Pro version with extra tools is planned, and the free version stays.</p></details>
-      <details><summary>Does it save passwords?</summary><p>No. Password fields, and fields marked as card numbers or one-time codes, are ignored.</p></details>
-      <details><summary>Where is my data stored?</summary><p>In your browser&rsquo;s local extension storage on your device. It is not sent anywhere. It isn&rsquo;t encrypted, so anyone with access to your browser profile could read it.</p></details>
-      <details><summary>Why does it need access to all websites?</summary><p>To notice when you copy text on a page and to read the page&rsquo;s title and address for the source link. It does nothing else with that access.</p></details>
-      <details><summary>Does it work with text copied in other apps?</summary><p>No. Citeback only sees text copied on webpages in Chrome. It isn&rsquo;t a system-wide clipboard manager.</p></details>
-      <details><summary>Does it work in Incognito?</summary><p>Not by default. You can allow it in Chrome&rsquo;s extension settings.</p></details>
-      <details><summary>Why wasn&rsquo;t something I copied saved?</summary><p>Some sites copy with their own &ldquo;Copy&rdquo; buttons that don&rsquo;t use a normal copy action, so Citeback may not see them. Tabs open before you installed Citeback need a refresh. The capture check in Settings tests it on a real page.</p></details>
-      <details><summary>How do I delete my clips?</summary><p>Delete one clip, use Clear all in the popup, or use Clear history in Settings. Uninstalling the extension removes the data from your browser.</p></details>
-      <details><summary>Which browsers does it support?</summary><p>Chrome. Other browsers aren&rsquo;t supported yet.</p></details>
+      <div class="qa"><h3>How do I see my clipboard history in Chrome?</h3><p>Chrome doesn&rsquo;t keep one for you. Citeback adds one for text you copy on webpages. Click its icon or press <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Y</kbd> (<kbd>&#8984;</kbd>+<kbd>Shift</kbd>+<kbd>Y</kbd> on Mac) to see what you&rsquo;ve copied, newest first.</p></div>
+      <div class="qa"><h3>Can I search text I copied earlier?</h3><p>Yes. Open Citeback and start typing. Search matches the copied text, the page title and address, and the site.</p></div>
+      <div class="qa"><h3>Is Citeback free?</h3><p>Yes. Saving, searching and copying back are free, with no account. A paid Pro version with extra tools is planned, and the free version stays.</p></div>
+      <div class="qa"><h3>Does it save passwords?</h3><p>No. Password fields, and fields marked as card numbers or one-time codes, are ignored.</p></div>
+      <div class="qa"><h3>Where is my data stored?</h3><p>In your browser&rsquo;s local extension storage on your device. It is not sent anywhere. It isn&rsquo;t encrypted, so anyone with access to your browser profile could read it.</p></div>
+      <div class="qa"><h3>Why does it need access to all websites?</h3><p>To notice when you copy text on a page and to read the page&rsquo;s title and address for the source link. It does nothing else with that access.</p></div>
+      <div class="qa"><h3>Does it work with text copied in other apps?</h3><p>No. Citeback only sees text copied on webpages in Chrome. It isn&rsquo;t a system-wide clipboard manager.</p></div>
+      <div class="qa"><h3>Does it work in Incognito?</h3><p>Not by default. You can allow it in Chrome&rsquo;s extension settings.</p></div>
+      <div class="qa"><h3>Why wasn&rsquo;t something I copied saved?</h3><p>Some sites copy with their own &ldquo;Copy&rdquo; buttons that don&rsquo;t use a normal copy action, so Citeback may not see them. Tabs open before you installed Citeback need a refresh. The capture check in Settings tests it on a real page.</p></div>
+      <div class="qa"><h3>How do I delete my clips?</h3><p>Delete one clip, use Clear all in the popup, or use Clear history in Settings. Uninstalling the extension removes the data from your browser.</p></div>
+      <div class="qa"><h3>Which browsers does it support?</h3><p>Chrome. Other browsers aren&rsquo;t supported yet.</p></div>
     </div>
   </div>
 </section>
