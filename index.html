@@ -1,0 +1,379 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Citeback: Searchable Copy History for Chrome</title>
+<meta name="description" content="Citeback saves text you copy on webpages, with its source, so you can search it and copy it again. Free Chrome extension. No account, nothing leaves your browser.">
+<link rel="canonical" href="https://YOUR-DOMAIN/">
+<link rel="icon" href="images/icon-128.png">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Citeback: never lose what you copy">
+<meta property="og:description" content="A free, private Chrome extension that saves what you copy, with its source, and makes it searchable.">
+<meta property="og:image" content="https://YOUR-DOMAIN/images/popup-list.webp">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">[{"@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Citeback", "applicationCategory": "BrowserApplication", "operatingSystem": "Chrome", "description": "Citeback saves text you copy on webpages, with its source page, so you can search it and copy it again. Local-only, no account.", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}}, {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Is Citeback free?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. Saving, searching and copying back are free, with no account. A paid Pro version with extra tools is planned, and the free version stays."}}, {"@type": "Question", "name": "Does it save passwords?", "acceptedAnswer": {"@type": "Answer", "text": "No. Password fields, and fields marked as card numbers or one-time codes, are ignored."}}, {"@type": "Question", "name": "Where is my data stored?", "acceptedAnswer": {"@type": "Answer", "text": "In your browser's local extension storage on your device. It is not sent anywhere. It isn't encrypted, so anyone with access to your browser profile could read it."}}, {"@type": "Question", "name": "Does it work with text copied in other apps?", "acceptedAnswer": {"@type": "Answer", "text": "No. Citeback only sees text copied on webpages in Chrome. It isn't a system-wide clipboard manager."}}]}]</script>
+<style>
+html{scroll-behavior:smooth}body{margin:0}
+
+.cb{--blue:#2563eb;--blue-dark:#1d4ed8;--ink:#0f172a;--muted:#475569;--line:#e2e8f0;--soft:#f1f5f9;--tint:#eff6ff;margin:0;color:var(--ink);background:linear-gradient(180deg,#eef4ff 0,#ffffff 680px);font:17px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+.cb *{box-sizing:border-box}
+.cb a{color:var(--blue)}
+.cb a:hover{color:var(--blue-dark)}
+.cb h1,.cb h2,.cb h3,.cb p,.cb ul{margin:0}
+.cb ul{padding:0;list-style:none}
+.cb .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+.cb .nav{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 0;flex-wrap:wrap}
+.cb .brand{display:flex;align-items:center;gap:12px;font-weight:700;font-size:20px;color:var(--ink);text-decoration:none}
+.cb .brand:hover{color:var(--ink)}
+.cb .brand img{width:36px;height:36px;border-radius:9px}
+.cb .navlinks{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.cb .navlinks a.plain{color:var(--muted);text-decoration:none;padding:10px 12px;border-radius:8px;font-size:15px;min-height:44px;display:inline-flex;align-items:center}
+.cb .navlinks a.plain:hover{color:var(--ink);background:var(--soft)}
+.cb .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:12px 22px;border-radius:10px;font-weight:650;font-size:16px;text-decoration:none;border:1px solid transparent}
+.cb a.btn.primary{background:var(--blue);color:#fff}
+.cb a.btn.primary:hover{background:var(--blue-dark);color:#fff}
+.cb a.btn.ghost{background:#fff;color:var(--ink);border-color:#cbd5e1}
+.cb a.btn.ghost:hover{background:var(--soft);color:var(--ink)}
+.cb .hero{display:flex;flex-wrap:wrap;align-items:center;gap:48px;padding:48px 0 88px}
+.cb .hero-copy{flex:1 1 440px;min-width:0}
+.cb .hero-shot{flex:1 1 360px;min-width:0;display:flex;justify-content:center}
+.cb .eyebrow{display:inline-block;padding:6px 12px;border-radius:999px;background:var(--tint);color:var(--blue-dark);font-weight:650;font-size:14px;margin-bottom:20px}
+.cb h1{font-size:clamp(2.4rem,5.2vw,3.9rem);line-height:1.04;letter-spacing:-.03em;font-weight:780}
+.cb .lead{margin-top:20px;font-size:clamp(1.1rem,2vw,1.3rem);line-height:1.55;color:var(--muted);max-width:34em}
+.cb .cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+.cb .fine{margin-top:14px;font-size:14px;color:var(--muted)}
+.cb .shot{display:block;max-width:100%;height:auto;border-radius:14px;border:1px solid rgba(15,23,42,.1);box-shadow:0 30px 70px rgba(30,64,175,.2),0 6px 16px rgba(15,23,42,.1);background:#fff}
+.cb .trust{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:#fff}
+.cb .trust ul{display:flex;flex-wrap:wrap;justify-content:center;gap:12px 36px;padding:20px 0;font-weight:600;font-size:15px;color:var(--ink)}
+.cb .trust li{display:flex;align-items:center;gap:8px}
+.cb .trust svg{color:var(--blue)}
+.cb section{padding:88px 0}
+.cb .alt{background:var(--soft)}
+.cb h2{font-size:clamp(1.8rem,3.6vw,2.6rem);line-height:1.12;letter-spacing:-.02em;font-weight:760}
+.cb .sub{margin-top:14px;font-size:18px;color:var(--muted);max-width:40em}
+.cb .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;margin-top:40px}
+.cb .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:24px}
+.cb .card h3{font-size:18px;line-height:1.3;margin-bottom:8px}
+.cb .card p{color:var(--muted);font-size:16px}
+.cb .ico{width:28px;height:28px;stroke:var(--blue);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;margin-bottom:14px;display:block}
+.cb .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;margin-top:40px;counter-reset:s}
+.cb .step{background:#fff;border:1px solid var(--line);border-radius:14px;padding:24px}
+.cb .num{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:var(--blue);color:#fff;font-weight:700;margin-bottom:14px}
+.cb .step h3{font-size:18px;margin-bottom:8px}
+.cb .step p{color:var(--muted);font-size:16px}
+.cb .split{display:flex;flex-wrap:wrap;align-items:center;gap:48px;margin-top:48px}
+.cb .split>*{flex:1 1 360px;min-width:0}
+.cb .split .pic{display:flex;justify-content:center}
+.cb kbd{font:600 14px ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:#fff;border:1px solid #cbd5e1;border-bottom-width:2px;border-radius:6px;padding:2px 7px;white-space:nowrap}
+.cb .checks li{position:relative;padding-left:32px;margin-top:14px;color:var(--ink)}
+.cb .checks li::before{content:"";position:absolute;left:0;top:5px;width:20px;height:20px;border-radius:50%;background:var(--tint) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232563eb' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 12.5 4 4 8-9'/%3E%3C/svg%3E") center/14px no-repeat}
+.cb .limits{margin-top:28px;padding:20px 22px;border:1px solid var(--line);border-radius:14px;background:#fff}
+.cb .limits h3{font-size:16px;margin-bottom:8px}
+.cb .limits li{position:relative;padding-left:18px;margin-top:6px;font-size:15px;color:var(--muted)}
+.cb .limits li::before{content:"";position:absolute;left:2px;top:11px;width:6px;height:6px;border-radius:50%;background:#94a3b8}
+.cb .tablebox{margin-top:36px;overflow-x:auto;border:1px solid var(--line);border-radius:14px;background:#fff}
+.cb table{width:100%;min-width:640px;border-collapse:collapse;font-size:16px}
+.cb th,.cb td{padding:14px 18px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+.cb thead th{background:var(--soft);font-size:15px}
+.cb thead th.us{background:var(--tint);color:var(--blue-dark)}
+.cb td.us{background:#f8fbff;font-weight:600}
+.cb tbody tr:last-child th,.cb tbody tr:last-child td{border-bottom:0}
+.cb tbody th{font-weight:600}
+.cb .note{margin-top:14px;font-size:14px;color:var(--muted)}
+.cb .pro{background:#0f172a;color:#e2e8f0}
+.cb .pro h2{color:#fff}
+.cb .pro .sub{color:#cbd5e1}
+.cb .pro .tag{display:inline-block;padding:6px 12px;border-radius:999px;background:#1e293b;color:#93c5fd;font-weight:650;font-size:14px;margin-bottom:20px}
+.cb .pro .checks li{color:#e2e8f0}
+.cb .pro .checks li::before{background-color:#1e293b}
+.cb .pro a.btn.primary{background:#fff;color:#0f172a}
+.cb .pro a.btn.primary:hover{background:#e2e8f0;color:#0f172a}
+.cb .pro .fine{color:#94a3b8}
+.cb details{border-bottom:1px solid var(--line)}
+.cb summary{cursor:pointer;padding:18px 0;font-weight:650;font-size:17px;list-style:none;display:flex;justify-content:space-between;gap:16px;min-height:44px;align-items:center}
+.cb summary::-webkit-details-marker{display:none}
+.cb summary::after{content:"+";font-size:22px;color:var(--blue);line-height:1}
+.cb details[open] summary::after{content:"\2212"}
+.cb details p{padding:0 0 20px;color:var(--muted);max-width:46em}
+.cb .faq{margin-top:32px;max-width:820px}
+.cb .final{text-align:center;background:linear-gradient(180deg,#fff,#eef4ff)}
+.cb .final .cta-row{justify-content:center}
+.cb .final .sub{margin-left:auto;margin-right:auto}
+.cb footer{border-top:1px solid var(--line);padding:32px 0;font-size:14px;color:var(--muted)}
+.cb footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px}
+.cb footer nav{display:flex;gap:20px;flex-wrap:wrap}
+.cb footer a{color:var(--muted)}
+.cb a:focus-visible,.cb summary:focus-visible{outline:3px solid #93c5fd;outline-offset:2px;border-radius:6px}
+@media (max-width:640px){
+.cb section{padding:56px 0}
+.cb .hero{padding:24px 0 56px;gap:32px}
+.cb .navlinks a.plain{display:none}
+.cb .btn{width:100%}
+.cb .cta-row{flex-direction:column}
+.cb .final .cta-row{align-items:stretch}
+}
+</style>
+</head>
+<body>
+<div class="cb" id="page">
+
+<header class="wrap nav">
+  <a class="brand" href="#top"><img src="images/icon-128.png" alt="" width="36" height="36">Citeback</a>
+  <nav class="navlinks" aria-label="Main">
+    <a class="plain" href="#how">How it works</a>
+    <a class="plain" href="#privacy">Privacy</a>
+    <a class="plain" href="#pro">Pro</a>
+    <a class="plain" href="#faq">FAQ</a>
+    <a class="btn primary" href="https://chromewebstore.google.com/search/citeback">Add to Chrome</a>
+  </nav>
+</header>
+
+<main id="top">
+<div class="wrap hero">
+  <div class="hero-copy">
+    <span class="eyebrow">Free Chrome extension</span>
+    <h1>Never lose what you copy.</h1>
+    <p class="lead">Citeback saves text you copy on webpages, along with the page it came from, so you can search it and copy it again. No account. Nothing leaves your browser.</p>
+    <div class="cta-row">
+      <a class="btn primary" href="https://chromewebstore.google.com/search/citeback">Add to Chrome &mdash; it&rsquo;s free</a>
+      <a class="btn ghost" href="#how">See how it works</a>
+    </div>
+    <p class="fine">Works on webpages in Chrome. No sign-up.</p>
+  </div>
+  <div class="hero-shot">
+    <img class="shot" src="images/popup-list.webp" alt="The Citeback popup showing a list of saved clips, each with its source page and a Copy button." width="400" height="602">
+  </div>
+</div>
+
+<div class="trust">
+  <ul class="wrap" aria-label="Highlights">
+    <li><svg class="ico" style="margin:0;width:20px;height:20px" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 5 6v5c0 4.5 3 8 7 10 4-2 7-5.5 7-10V6l-7-3Z"/><path d="m9 12 2 2 4-4"/></svg>Stays on your device</li>
+    <li><svg class="ico" style="margin:0;width:20px;height:20px" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>No account</li>
+    <li><svg class="ico" style="margin:0;width:20px;height:20px" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>No analytics or ads</li>
+    <li><svg class="ico" style="margin:0;width:20px;height:20px" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>Free to use</li>
+  </ul>
+</div>
+
+<section>
+  <div class="wrap">
+    <h2>You copied it. Now where is it?</h2>
+    <p class="sub">Your clipboard holds one thing at a time, and it never remembers where a snippet came from.</p>
+    <div class="cards">
+      <div class="card">
+        <h3>Gone with the next copy</h3>
+        <p>Copy something new and the last thing you copied is lost. Anything you didn&rsquo;t paste right away has to be found again.</p>
+      </div>
+      <div class="card">
+        <h3>No idea where it came from</h3>
+        <p>You pasted a great line into your notes, but not the link. Now you can&rsquo;t say which page it was.</p>
+      </div>
+      <div class="card">
+        <h3>Re-finding takes time</h3>
+        <p>Scrolling through tabs and browser history for text you already had is minutes you don&rsquo;t get back.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="how">
+  <div class="wrap">
+    <h2>Copy as usual. Citeback does the rest.</h2>
+    <p class="sub">There is nothing new to learn. You keep copying the way you always have.</p>
+    <div class="steps">
+      <div class="step">
+        <span class="num" aria-hidden="true">1</span>
+        <h3>Copy on any webpage</h3>
+        <p>Select text and press <kbd>Ctrl</kbd>+<kbd>C</kbd> (<kbd>&#8984;</kbd>+<kbd>C</kbd> on Mac). That&rsquo;s the whole step.</p>
+      </div>
+      <div class="step">
+        <span class="num" aria-hidden="true">2</span>
+        <h3>It&rsquo;s saved with its source</h3>
+        <p>Citeback keeps the text, the page address and the time, in your browser on your device.</p>
+      </div>
+      <div class="step">
+        <span class="num" aria-hidden="true">3</span>
+        <h3>Search and copy it back</h3>
+        <p>Search by text, page or site, then click Copy. Or press <kbd>Enter</kbd> to copy the top result.</p>
+      </div>
+    </div>
+    <div class="split">
+      <div>
+        <h2 style="font-size:clamp(1.5rem,3vw,2rem)">Find it in seconds</h2>
+        <p class="sub">Open Citeback with <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>Y</kbd> (<kbd>&#8984;</kbd>+<kbd>Shift</kbd>+<kbd>Y</kbd> on Mac), type a few letters, and press <kbd>Enter</kbd>. Your hands never leave the keyboard.</p>
+        <ul class="checks">
+          <li>Search matches the saved text, the page and the site.</li>
+          <li>The newest copy is highlighted, so you can see it landed.</li>
+          <li>Click a clip&rsquo;s source link to go back to the page.</li>
+        </ul>
+      </div>
+      <div class="pic">
+        <img class="shot" src="images/popup-search.webp" alt="Searching the word practice in Citeback narrows the list to two matching clips." width="400" height="334" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Small features that save real time</h2>
+    <div class="cards">
+      <div class="card">
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <h3>Search everything you copied</h3>
+        <p>Look up a clip by what it says, the page it came from, or the site.</p>
+      </div>
+      <div class="card">
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg>
+        <h3>The source on every clip</h3>
+        <p>Every clip links back to its page. Search results and video pages keep the bit of the address that opens the same page.</p>
+      </div>
+      <div class="card">
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 10h.01M11 10h.01M15 10h.01M7 14h10"/></svg>
+        <h3>Keyboard first</h3>
+        <p>A shortcut opens it, Enter copies the top result. You can change the shortcut in Chrome.</p>
+      </div>
+      <div class="card">
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></svg>
+        <h3>Know it&rsquo;s working</h3>
+        <p>A brief check mark on the toolbar icon confirms each saved copy, and a built-in capture check proves it works on a real page.</p>
+      </div>
+      <div class="card">
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="5" width="3.5" height="14" rx="1"/><rect x="13.5" y="5" width="3.5" height="14" rx="1"/></svg>
+        <h3>Pause and clear anytime</h3>
+        <p>One click pauses capture. Delete a clip, clear them all, or choose how many to keep, from 50 to 1,000.</p>
+      </div>
+      <div class="card">
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 5 6v5c0 4.5 3 8 7 10 4-2 7-5.5 7-10V6l-7-3Z"/><path d="m9 12 2 2 4-4"/></svg>
+        <h3>Careful by default</h3>
+        <p>Password fields and fields marked as card numbers or one-time codes are never saved.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="alt" id="privacy">
+  <div class="wrap">
+    <h2>Private by design</h2>
+    <p class="sub">Citeback is built so that your copied text never has anywhere to go.</p>
+    <div class="split">
+      <div>
+        <ul class="checks">
+          <li>Everything is stored in your browser, on your device.</li>
+          <li>No account, no sync, no analytics, no ads.</li>
+          <li>Citeback makes no network requests and has no server.</li>
+          <li>Pause capture or clear your history whenever you like.</li>
+        </ul>
+        <h3 style="margin-top:28px;font-size:18px">Why does it ask to read all websites?</h3>
+        <p class="sub" style="margin-top:8px;font-size:16px">To notice when you copy text and to read the page title and address saved with it. It is used for nothing else. The <a href="https://louisliberty.github.io/citeback-privacy/">privacy policy</a> has the details.</p>
+        <div class="limits">
+          <h3>What Citeback doesn&rsquo;t do</h3>
+          <ul>
+            <li>It only sees text copied on webpages. Text copied in other apps isn&rsquo;t saved.</li>
+            <li>Some sites copy with their own &ldquo;Copy&rdquo; buttons, which may not be captured.</li>
+            <li>It doesn&rsquo;t run in Incognito unless you allow it, or on pages like chrome:// and the Chrome Web Store.</li>
+            <li>Saved clips aren&rsquo;t encrypted, so anyone with access to your browser profile could read them.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="pic">
+        <img class="shot" src="images/settings.webp" alt="The Citeback settings page showing the capture check, a pause option, a history size limit and clear history." width="560" height="634" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Made for people who copy a lot</h2>
+    <div class="cards">
+      <div class="card"><h3>Students</h3><p>Keep the quote and the page it came from while you write the paper.</p></div>
+      <div class="card"><h3>Writers and journalists</h3><p>Gather lines while you read, then find the one you need when you start drafting.</p></div>
+      <div class="card"><h3>Researchers and analysts</h3><p>Move across dozens of tabs without losing the passage or its source.</p></div>
+      <div class="card"><h3>Everyone else</h3><p>Copied an address, a code or a recipe step an hour ago? It&rsquo;s still there.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <h2>How Citeback compares</h2>
+    <p class="sub">There are many clipboard tools. Here is how the main kinds differ from Citeback.</p>
+    <div class="tablebox">
+      <table>
+        <thead>
+          <tr><th scope="col">&nbsp;</th><th scope="col" class="us">Citeback</th><th scope="col">Typical clipboard managers</th><th scope="col">Manual quote clippers</th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">Saves when you copy</th><td class="us">Yes, automatically</td><td>Usually</td><td>You trigger each save</td></tr>
+          <tr><th scope="row">Keeps the source page</th><td class="us">Yes, on every clip</td><td>Often not</td><td>Yes</td></tr>
+          <tr><th scope="row">Searchable history</th><td class="us">Yes</td><td>Yes</td><td>Varies</td></tr>
+          <tr><th scope="row">Account required</th><td class="us">No</td><td>Varies</td><td>Varies</td></tr>
+          <tr><th scope="row">Network requests</th><td class="us">None</td><td>Varies</td><td>Varies</td></tr>
+          <tr><th scope="row">Projects and export</th><td class="us">Coming in Pro</td><td>Varies</td><td>Varies</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">These are broad categories, not specific products. Features differ between extensions, so check any tool you&rsquo;re comparing.</p>
+  </div>
+</section>
+
+<section class="pro" id="pro">
+  <div class="wrap">
+    <span class="tag">Citeback Pro &middot; coming soon</span>
+    <h2>From copied text to sourced work</h2>
+    <p class="sub">Citeback stays free. Pro is planned for people who turn what they copy into notes, briefs and citations.</p>
+    <ul class="checks">
+      <li>Projects and research sessions, to keep clips together by topic.</li>
+      <li>Copy with source, so a quote and its link paste together.</li>
+      <li>Export to Markdown, CSV and more.</li>
+      <li>A much larger archive, with backup and restore.</li>
+    </ul>
+    <div class="cta-row">
+      <a class="btn primary" href="mailto:thelouisliberty@gmail.com?subject=Citeback%20Pro%20waitlist&amp;body=Please%20add%20me%20to%20the%20Citeback%20Pro%20waitlist.">Join the Pro waitlist</a>
+    </div>
+    <p class="fine">Early members will get a founding-member price. No payment now. Plans may change before launch.</p>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <h2>Questions</h2>
+    <div class="faq">
+      <details><summary>Is Citeback free?</summary><p>Yes. Saving, searching and copying back are free, with no account. A paid Pro version with extra tools is planned, and the free version stays.</p></details>
+      <details><summary>Does it save passwords?</summary><p>No. Password fields, and fields marked as card numbers or one-time codes, are ignored.</p></details>
+      <details><summary>Where is my data stored?</summary><p>In your browser&rsquo;s local extension storage on your device. It is not sent anywhere. It isn&rsquo;t encrypted, so anyone with access to your browser profile could read it.</p></details>
+      <details><summary>Why does it need access to all websites?</summary><p>To notice when you copy text on a page and to read the page&rsquo;s title and address for the source link. It does nothing else with that access.</p></details>
+      <details><summary>Does it work with text copied in other apps?</summary><p>No. Citeback only sees text copied on webpages in Chrome. It isn&rsquo;t a system-wide clipboard manager.</p></details>
+      <details><summary>Does it work in Incognito?</summary><p>Not by default. You can allow it in Chrome&rsquo;s extension settings.</p></details>
+      <details><summary>Why wasn&rsquo;t something I copied saved?</summary><p>Some sites copy with their own &ldquo;Copy&rdquo; buttons that don&rsquo;t use a normal copy action, so Citeback may not see them. Tabs open before you installed Citeback need a refresh. The capture check in Settings tests it on a real page.</p></details>
+      <details><summary>How do I delete my clips?</summary><p>Delete one clip, use Clear all in the popup, or use Clear history in Settings. Uninstalling the extension removes the data from your browser.</p></details>
+      <details><summary>Which browsers does it support?</summary><p>Chrome. Other browsers aren&rsquo;t supported yet.</p></details>
+    </div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="wrap">
+    <h2>Start keeping what you copy</h2>
+    <p class="sub">Free, private, and ready in a minute.</p>
+    <div class="cta-row">
+      <a class="btn primary" href="https://chromewebstore.google.com/search/citeback">Add to Chrome &mdash; it&rsquo;s free</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>&copy; 2026 Louis Liberty LLC. All rights reserved.</p>
+    <nav aria-label="Footer">
+      <a href="https://louisliberty.github.io/citeback-privacy/">Privacy policy</a>
+      <a href="mailto:thelouisliberty@gmail.com">Contact</a>
+    </nav>
+  </div>
+</footer>
+
+</div>
+</body>
+</html>
