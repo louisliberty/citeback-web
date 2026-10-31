@@ -35,8 +35,8 @@ html{scroll-behavior:smooth}body{margin:0}
 .cb a.btn.primary:hover{background:var(--blue-dark);color:#fff}
 .cb a.btn.ghost{background:#fff;color:var(--ink);border-color:#cbd5e1}
 .cb a.btn.ghost:hover{background:var(--soft);color:var(--ink)}
-.cb .hero{display:flex;flex-wrap:wrap;align-items:center;gap:48px;padding-top:48px;padding-bottom:88px}
-.cb .hero-copy{flex:1 1 440px;min-width:0}
+.cb .hero{display:flex;flex-wrap:wrap;align-items:flex-start;gap:48px;padding-top:32px;padding-bottom:72px}
+.cb .hero-copy{flex:1 1 440px;min-width:0;padding-top:40px}
 .cb .hero-shot{flex:1 1 360px;min-width:0;display:flex;justify-content:center}
 .cb .eyebrow{display:inline-block;padding:6px 12px;border-radius:999px;background:var(--tint);color:var(--blue-dark);font-weight:650;font-size:14px;margin-bottom:20px}
 .cb h1{font-size:clamp(2.4rem,5.2vw,3.9rem);line-height:1.04;letter-spacing:-.03em;font-weight:780}
@@ -114,6 +114,7 @@ html{scroll-behavior:smooth}body{margin:0}
 @media (max-width:640px){
 .cb section{padding:56px 0}
 .cb .hero{padding-top:24px;padding-bottom:56px;gap:32px}
+.cb .hero-copy{padding-top:0}
 .cb .navlinks a.plain{display:none}
 .cb .btn{width:100%}
 .cb .cta-row{flex-direction:column}
